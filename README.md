@@ -1,6 +1,3 @@
-# Descripción
-Banco de Sílabos simple
-
 # Replicar
 Después de clonar el repo
 
