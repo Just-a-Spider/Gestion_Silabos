@@ -1,0 +1,63 @@
+version: "3.8"
+services:
+  nestjs-server:
+    build:
+      context: ./server
+      dockerfile: Dockerfile
+    container_name: "${COMPOSE_PROJECT_NAME}-server"
+    restart: "always"
+    ports:
+      - "127.0.0.1:${HOST_MACHINE_NESTJS_PORT}:8000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+      - ./media/silabos:/app/media/silabos
+    env_file:
+      - .env
+    command: node dist/main
+    environment:
+      - NODE_ENV=development
+      - STAGE=${SERVER_STAGE}
+      - DB_HOST=db
+      - DB_PORT=${DB_PORT}
+      - DB_USERNAME=${DB_USERNAME}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_DATABASE=${DB_DATABASE}
+      - JTW_SECRET=${JWT_SECRET}
+      - PGSSLMODE=disable  # Disable SSL connections
+    depends_on:
+      - db
+
+  nextjs-frontend:
+    build:
+      context: ./client
+      dockerfile: Dockerfile
+    container_name: "${COMPOSE_PROJECT_NAME}-frontend"
+    restart: "always"
+    ports:
+      - "127.0.0.1:${HOST_MACHINE_NEXTJS_PORT}:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    env_file:
+      - .env
+    command: npm run dev
+    environment:
+      - NODE_ENV=development
+      - NEXT_BASE_URL=http://127.0.0.1:${HOST_MACHINE_NESTJS_PORT}/
+
+  db:
+    image: postgres:latest
+    container_name: "${COMPOSE_PROJECT_NAME}-postgres"
+    restart: "always"
+    ports:
+      - "127.0.0.1:${HOST_MACHINE_POSTGRES_PORT}:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data/
+    environment:
+      POSTGRES_USER: ${DB_USERNAME}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_DATABASE}
+
+volumes:
+  postgres_data:
