@@ -187,7 +187,7 @@ export function CoursesTable<TData, TValue>({
           className="max-w-full md:max-w-96"
         />
       </div>
-      <div className="rounded-md border overflow-x-auto">
+      <div className="rounded-md border overflow-x-auto bg-white">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

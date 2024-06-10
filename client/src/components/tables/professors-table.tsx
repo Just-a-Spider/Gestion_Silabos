@@ -90,7 +90,7 @@ export function ProfessorsTable<TData, TValue>({
           className="max-w-fit"
         />
       </div>
-      <div className="rounded-md border overflow-x-auto">
+      <div className="rounded-md border overflow-x-auto bg-white">
         <Table>
           <TableHeader>
             {table.getHeaderGroups().map((headerGroup) => (

@@ -74,7 +74,9 @@ export default function MainView({ role, showProfessors = false }: ViewProps) {
 
   return (
     <div className="container mx-auto px-4 sm:px-6 lg:px-8">
-      <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl">Cursos</h2>
+      <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl text-white">
+        Cursos
+      </h2>
       <div className="overflow-x-auto flex flex-col justify-center items-center">
         <MemoizedCoursesTable
           columns={courseColumns as ColumnDef<unknown, unknown>[]}
@@ -86,7 +88,7 @@ export default function MainView({ role, showProfessors = false }: ViewProps) {
       </div>
       {showProfessors && (
         <>
-          <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl mt-6">
+          <h2 className="text-lg sm:text-lg md:text-xl lg:text-2xl mt-6 text-white">
             Profesores
           </h2>
           <div className="overflow-x-auto">
