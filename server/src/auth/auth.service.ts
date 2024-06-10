@@ -37,7 +37,7 @@ export class AuthService {
         const user = await this.userRepository.findOne({ where: { code } });
 
         if (
-            (user.role === UserRole.ADMIN || user.role == UserRole.STUDENT) &&
+            (user.role === UserRole.COORD || user.role == UserRole.STUDENT) &&
             password === user.password
         ) {
             const payload: JwtPayload = {
