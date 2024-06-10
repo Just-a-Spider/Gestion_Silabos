@@ -22,6 +22,6 @@ npm run dev
 ```
 
 # TODO
-- Página de administrador (en la universidad en la que estoy les gusta hacer todo manual así que esto es opcional tbh)
+- Página de administrador
 - Entidad Career para ya no manejarlas como texto 
 - Reestructurar Usuarios para separar profesores, estudiantes y coordinadores
