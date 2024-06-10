@@ -13,20 +13,12 @@ import { AuthService } from './auth.service';
 import { GetUser } from './decorators/get-user.decorator';
 import { Roles } from './decorators/roles.decorator';
 import { SignInCredentials } from './dto/signin-credentials.dto';
-import { SignUpCredentials } from './dto/signup-credentials.dto';
 import { User, UserRole } from './entities/user.entity';
 import { RolesGuard } from './guards/roles.guard';
 
 @Controller('auth')
 export class AuthController {
     constructor(private authService: AuthService) {}
-
-    @Post('/signup')
-    signUp(@Body() signUpCretdentials: SignUpCredentials): Promise<string> {
-        console.log(signUpCretdentials);
-        return this.authService.signUp(signUpCretdentials);
-    }
-
     @Post('/signin')
     signIn(
         @Body() signInCredentials: SignInCredentials,

@@ -1,5 +1,4 @@
 import {
-    ConflictException,
     Injectable,
     InternalServerErrorException,
     Logger,
@@ -11,7 +10,6 @@ import * as bcrypt from 'bcrypt';
 import { RegisterProfessorDto } from 'src/auth/dto/register-professor.dto';
 import { Repository } from 'typeorm';
 import { SignInCredentials } from './dto/signin-credentials.dto';
-import { SignUpCredentials } from './dto/signup-credentials.dto';
 import { User, UserRole } from './entities/user.entity';
 import { JwtPayload } from './jwt-payload.interface';
 
@@ -31,39 +29,6 @@ export class AuthService {
         private userRepository: Repository<User>,
         private jwtService: JwtService, // The JwtService is used to sign and verify JWT tokens.
     ) {}
-
-    async signUp(signUpCredentials: SignUpCredentials): Promise<string> {
-        const { name, lastname, code, dni, email, password } =
-            signUpCredentials;
-
-        console.log(signUpCredentials);
-
-        const salt = await bcrypt.genSalt(); // Generate a salt to hash the password.
-        const hashedPassword = await bcrypt.hash(password, salt);
-
-        const user = this.userRepository.create({
-            name,
-            lastname,
-            code,
-            dni,
-            email,
-            password: hashedPassword,
-        });
-
-        try {
-            await this.userRepository.save(user);
-        } catch (error) {
-            if (error.code === '23505') {
-                // duplicate username or email, POSTGRES 23505, MYSQL ER_DUP_ENTRY
-                throw new ConflictException('Username or email already exists');
-            } else {
-                console.error(error);
-                throw new InternalServerErrorException();
-            }
-        }
-
-        return 'User Created';
-    }
 
     async signIn(
         signInCredentials: SignInCredentials,
